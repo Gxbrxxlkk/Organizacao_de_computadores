@@ -1,0 +1,79 @@
+Compilador serve para trazer de alto nivel para assembly
+e Assembler transforma de assembly para código de máquina
+E o Linker, que junta códigos objetos (Que o assembler criou)
+hexdump pode ser utilizado para debuggar códigos?
+arquivo objeto é um arquivo binário que guarda informações do programa?
+formato de arquivos objeto e executavel
+Unix/linux: coff -> commom object file format, ELF -> executable
+ferramenta util para inspeção é o objdump, parte do conjunto binutils, faz o inverso do processo normal de montagem (engenharia inversa)
+montador pega cada label e transforma em simbolo, e fica guardado em uma tabela de símbolos, o montador associa esses simbolos a endereços de memória
+pode conter simbolos locais ou externos. 
+Tabela de relocação: quais intruções fazem referencias para label
+usando .globl "nome" eu faço os simbolos virarem globais?
+
+linker: junta os códigos objetos
+
+_start <- aqui q começa a ser executado, em qualquer caso, se não definir ele, o linker faz isso (script de linkagem)
+O que é bare metal?
+com readelf eu consigo ler o cabeçalho de um arquivo executável ELF
+
+.text -> dedicada ao armazenanmento das instruções q compoe o programa
+.data -> armazena as variaveis globais incializadas
+.bss  ->     ""                     ñ incializadas
+.rodata 
+
+        Inspecionando registradores e memória durante a execução
+
+    GDB & qemu, qemu vai usar para bare metal
+    GDB é um depurador? aparentemente tem como vincular o gdb com o vs code para depurar de forma mais facil, ou com forma de linha de comando
+
+    Libc é a biblioteca básica do sistema instalada quando instalo o linux
+    quando usa libc o que acontece? Eu ligo o meu programa com o libc, tudo pelo linker?
+    crt0 é parte do Libc
+    Loader (parte do so) carrega o executavel na memória, depois ele desvia para a rotina crt0, que contém o _start, faz uma série de inicializações para colocar o programa em execução
+    registrador para pilha, argumentos para a main, e após isso desvia para o main?
+
+    -g é para incluir informações necessárias para conseguir debuggar
+    -o para escolher o nome de arquivo de saida
+
+
+\/ isso aqui usando libc
+
+riscv64-linux-gnu-as -g comp_linux_libc.s -o  comp_linux_libc.o
+riscv64-linux-gnu-ld <<-- não linka com o libc, por isso utilizar o gcc
+riscv64-linux-gnu-gcc -static comp_linux_libc.o -o comp_linux_libc.exe <<-- esse cara aqui chama o script (chama o ld passando o script de linkagem com o libc?)
+qemu-riscv64-static -g 1234 comp_linux_libc.exe
+gdb-multiarch comp_linux_libc.exe
+break main
+(gdb) continue
+(gdb) step
+(gdb) info variables
+(gdb) info variables num1
+(gdb) info register t1
+(gdb) info register t2
+(gdb) step
+(gdb) step
+(gdb) info register t3
+(gdb) info register t4
+(gdb) step
+(gdb) step
+(gdb) info register t0
+(gdb) x/hw &num1        <<-- para ver o que estpa na memomria
+0x6f000:        10
+(gdb) quit
+A debugging session is active.
+
+        Inferior 1 [process 1] will be killed.
+
+Quit anyway? (y or n) y
+
+
+
+
+    após gerar o arquivo .o, tem que fazer a linkagem
+
+
+    sem libc, chama direto para o _start?
+    inicializações q a biblioteca fazia por mim, agora vou ter que fazer
+
+

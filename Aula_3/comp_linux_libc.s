@@ -1,18 +1,13 @@
 #verificar qual o maior de dois valores
+
 .section .data
+
 num1: .word 10 
 num2: .word 5
 
 .section .text
-    .globl _start
-_start:
-    # Inicializar o gp <- acessa as variaveis globais
-    .option push #empilha as configurações originais
-    .option norelax #desabilita a otimização
-    la gp, _global_pointer$ # script de linkagem padrao, sem otimização para fazer certo
-    .option pop #volta para as configurações normais
-
-
+    .globl main
+main:
     #lê o endereço das variaveis globais
     la t1, num1
     la t2, num2
@@ -25,8 +20,10 @@ _start:
     bgt t3, t4, t3_maior # if t3 > t4 then t3_maior
     addi t0, t4, 0 #mv t0, t4 é equivalente?
 
+
 t3_maior:
     addi t0, t3, 0
+
 
 fim:
     addi t0, t0, 0
