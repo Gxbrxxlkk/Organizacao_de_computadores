@@ -1,0 +1,105 @@
+############################################################
+//                                                        //
+// Lembrar de dar git add ao final da edição dos arquivos //
+//                                                        //
+############################################################
+
+
+
+Revisao sobre arrays
+
+em array de inteiro, cada numero é 4 bytes (uma palavra), andar o endereço de 4 em 4, para pegar os numeros inteiros
+Se eu quiser um array não inicializado, inicio ele em .bss
+
+inteiro é 4 bytes
+char é 1 byte --> lw e sw serve para ler e gravar palavras, para caracter usa lb, lbu e sb      \0 é o 00 (para fim de string)
+string: .asciiz "gabriel" -> adiciona \0 no final
+
+
+load byte: lb, rd, imm(rs1) -> indica leitura de um byte na memória, 
+load byte unsigned: lbu rd, imm(rs1) -> rd[0:7] é o valor no endereço, o restante vira zero?
+
+memória little-endian e big-endian
+
+no little-endian o endereçamento é feito do maior para o menor (esquerda para a direita, como um numero normal 100 -> cem), no big-endian o *endereçamento* é ao contrario (100 -> hum)
+
+
+riscv64-linux-gnu-as -march=rv32i -mabi=ilp32 -g strings.s -o strings.o 
+riscv64-linux-gnu-ld -m elf32lriscv -static strings.o -o strings.exe
+qemu-riscv32-static -g 4444 strings.exe
+
+No outro terminal:
+
+gdb-multiarch strings.exe
+target remote :4444
+info variable texto
+x/7c &texto             --> 0x110a8:        103 'g' 97 'a'  98 'b'  114 'r' 105 'i' 101 'e' 108 'l' #
+break end_loop
+continue
+x/8c &texto                 #conferir, aparentemente a conta para deixar maiusculo está deixando tudo negativo
+quit
+
+#######################
+Funções
+
+Caller (chamador) função que chama outra função
+Callee (chamado) função chamada
+
+Quando um caller(ex: main) chama uma outra funçao(ex: soma(int a, int b)), ambas devem concordar sobre onde os argumentos e valor de retorno devem ser colocados
+
+#####
+Caller
+passa argumentos para a função por registradores (a0 - a7)
+chama usando a instrução jal (salva o valor do endereço seguinte em ra (x1, para endereço de função), e faz o salto para executar as instruções da função chamada)
+
+
+
+
+
+#####
+Callee
+lê argumentos passados (em ordem) em (a0 - a7) se precisar de mais argumentos, chama pela pilha
+realiza a tarefa e retorna valor no registrador a0
+no final volta usando jr ra (endereço dps de onde chamou a função)
+Não é bom sobrescrever registradores ou memória usada pelo chamador
+
+
+
+
+jr é jump register
+
+
+#####
+pilha
+
+quem usa a pilha são as Funções, alocada e desalocada dinamicamente por funções, uma área de memória
+se uma função chama a outra, ela tem que salvar o ra
+
+registradores preservados e não preservados
+callee saved e caller-saved
+
+
+
+
+
+
+
+(gdb) target remote :5556
+Remote debugging using :5556
+_start () at funcoes.s:12
+12          la gp, __global_pointer$
+(gdb) break donw
+Function "donw" not defined.
+Make breakpoint pending on future shared library load? (y or [n]) n
+(gdb) break done
+Ponto de parada 1 at 0x100c4: file funcoes.s, line 43.
+(gdb) continue
+Continuing.
+
+Breakpoint 1, done () at funcoes.s:43
+43          add t0, t0, zero
+(gdb) x/1w &M
+0x110dc:        67
+(gdb) x/1w &P
+0x110e0:        4488
+(gdb) 
