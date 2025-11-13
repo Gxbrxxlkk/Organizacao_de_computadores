@@ -44,6 +44,7 @@ riscv64-linux-gnu-ld <<-- não linka com o libc, por isso utilizar o gcc
 riscv64-linux-gnu-gcc -static comp_linux_libc.o -o comp_linux_libc.exe <<-- esse cara aqui chama o script (chama o ld passando o script de linkagem com o libc?)
 qemu-riscv64-static -g 1234 comp_linux_libc.exe
 gdb-multiarch comp_linux_libc.exe
+#usar target remote :1234?
 break main
 (gdb) continue
 (gdb) step
@@ -66,9 +67,6 @@ A debugging session is active.
         Inferior 1 [process 1] will be killed.
 
 Quit anyway? (y or n) y
-
-
-
 
     após gerar o arquivo .o, tem que fazer a linkagem
 
