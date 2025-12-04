@@ -1,0 +1,13 @@
+Interação com o sistema operacional
+
+i instruction
+s software 
+a analisis?
+
+sistem calls
+
+Modo supervisor roda o SO
+
+exception = excessão de Hardware
+trap = excessão de software
+
