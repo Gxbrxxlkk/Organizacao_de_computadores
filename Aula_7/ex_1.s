@@ -45,9 +45,15 @@ conv_int2str:
     # Contador
     addi t3, zero, 0 
 
+    # olhe para o bit mais significativo de a0
+    # se ele for 1, converta para positivo e salve essa info
+
+
     # empilha 0 \0 para indicar a terminação da string
     addi sp, sp, -1 # empilha o \0
     sb zero, 0(sp) # coloca o \0
+
+    #se o numero for negativo, empilhe também o '-'
 
     #teste caso t0 = 0, caso seja incrementar o contador e pular para o loop de desempilhar
     beq t0, zero, empilha_zero

@@ -1,1 +1,16 @@
-2 fazer só a versão positiva?
+2 Utiliza a versão 1
+
+3 -> utiliza o exercicio 1 tbm, contabilizar a quant de caracteres
+
+4 -> copiar uma string p outra, n precisa pilha, recebe o end dos dois buffers, até achar o \0
+
+5 -> pega cada char e sub por 48? , digito mais a esquerda multi por 1 soma c/ o segundo por 10, terceiro por 100 se for neg, compara c/ 45
+
+6 -> 
+
+do livro descartar todos com alocação dinamica, só os q é de programação básica
+
+
+
+lista mais dificil q a prova
+"ufc -> o treino deve ser dificil para a luta ser fácil" -Linder
